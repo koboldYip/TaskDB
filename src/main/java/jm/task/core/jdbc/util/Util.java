@@ -11,18 +11,17 @@ public class Util {
     private static final String userName = "root";
     private static final String password = "root";
 
-    public static Connection getMySQLConnection() {
+    public static Connection getMySQLConnection() throws SQLException {
         return getMySQLConnection(hostName, dbName, userName, password);
     }
 
     public static Connection getMySQLConnection(String hostName, String dbName,
-                                                String userName, String password) {
-        try {
-            return DriverManager.getConnection(String.format("jdbc:mysql://%s:3306/%s", hostName, dbName), userName,
-                    password);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+                                                String userName, String password) throws SQLException {
+        Connection connection;
+        connection = DriverManager.getConnection(String.format("jdbc:mysql://%s:3306/%s", hostName, dbName), userName,
+                password);
+        connection.setAutoCommit(false);
+        return connection;
     }
 
 }
